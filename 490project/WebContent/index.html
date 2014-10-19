@@ -1,0 +1,108 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Program Advisor</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+
+
+</head>
+<body>
+<script>
+function getStud(responseType) {
+	var status=0;
+	var theId = document.getElementById("studform").studid.value;
+	var url = "http://localhost:8080/rt1/services/students/"+theId;
+	alert(url);
+	 $.get(url,function(data,status){
+		    alert("Data: " + data + "\nStatus: " + status);
+	 		var output = document.getElementById("studout");
+
+			if(status == "success") {
+				if(responseType=="text") {
+					alert("text");
+					
+					output.innerHTML = data;
+				}
+				else if(responseType=="json"){
+					alert("json");
+					alert(JSON.stringify(data));
+					output.innerHTML = "Last:... ";
+					//var theStudent = JSON.parse(data);
+					//output.innerHTML = data.lname;
+					output.innerHTML = "Student Object: Last: "+data.lname 
+								+" First: "+data.fname +" ("+data.id+")"; 
+				
+				}
+	 		}//end status is success
+			else {
+				output.innerHTML = "Sorry, an error occured: "+status;
+			}
+		  }, responseType);
+	 
+	
+}
+
+function getCours(responseType) {
+	var status=0;
+	var theId = document.getElementById("coursform").coursid.value;
+	var url = "http://localhost:8080/rt1/services/courses/"+theId;
+	alert(url);
+	 $.get(url,function(data,status){
+		    alert("Data: " + data + "\nStatus: " + status);
+	 		var output = document.getElementById("coursout");
+
+			if(status == "success") {
+				if(responseType=="text") {
+					alert("text");
+					
+					output.innerHTML = data;
+				}
+				else if(responseType=="json"){
+					alert("json");
+					alert(JSON.stringify(data));
+					output.innerHTML = "Course:... ";
+					//var theCourse = JSON.parse(data);
+					//output.innerHTML = data.number;
+					output.innerHTML = "Course Object: Department: "+data.dept 
+								+" Number: "+data.number +" ("+data.id+")"; 
+				
+				}
+	 		}//end status is success
+			else {
+				output.innerHTML = "Sorry, an error occured: "+status;
+			}
+		  }, responseType);
+	
+	
+}
+</script>
+ 
+<h2>Welcome to Program Advisor</h2>
+
+<p id="studin">
+<form id="studform">
+Enter student id: <input type="text" id="studid" value="7">
+<button type="button" onclick="getStud('text')"> Go Text </button>
+<button type="button" onclick="getStud('json')"> Go Json </button>
+</form>
+</p>
+
+<p id="studout"> studout paragraph
+</p>
+
+<p id="coursin">
+<form id="coursform">
+Enter course id: <input type="text" id="coursid" value="7">
+<button type="button" onclick="getCours('text')"> Go Text </button>
+<button type="button" onclick="getCours('json')"> Go Json </button>
+</form>
+</p>
+
+<p id="coursout"> coursout paragraph
+</p>
+</body>
+</html>
